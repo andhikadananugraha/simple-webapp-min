@@ -1,12 +1,11 @@
 pipeline {
     agent any
 
-
   environment {
     // Adjust variables below
-    ARGOCD_SERVER     = "10.13.5.10:30443"
-    APP_MANIFEST_REPO = "https://github.com/andhikadananugraha/simple-webapp-manifest.git"
-    IMAGE_NAME        = "docker.io/andhikadn11/webapp"
+    ARGOCD_SERVER     = "10.13.X.10:30443"
+    APP_MANIFEST_REPO = "https://github.com/your_git_username/simple-webapp-manifest.git"
+    IMAGE_NAME        = "docker.io/your_dockerhub_username/webapp"
 
 
     // Do not edit variables below
@@ -74,7 +73,7 @@ pipeline {
                 rm -rf simple-webapp-manifest
                 git clone $APP_MANIFEST_REPO
                 cd simple-webapp-manifest
-                sed -i "s/webapp:.*/webapp:$TAG/g" deployment.yaml
+                sed -iE "s/image:.*/image: $IMAGE_NAME:$TAG/g" deployment.yaml
                 git config --global user.email "example@main.com"
                 git config --global user.name "example"
                 git add . && git commit -m 'update image tag'
